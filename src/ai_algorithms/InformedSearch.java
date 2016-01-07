@@ -6,6 +6,7 @@
 package ai_algorithms;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import sun.misc.Queue;
 
 /**
@@ -24,7 +25,10 @@ public class InformedSearch {
     private ArrayList<Integer> path;
     boolean isFind = false;
     
-    private Queue Q;
+    private ArrayList<Integer> openList;
+    private ArrayList<Integer> openListWeight;
+    private ArrayList<Integer> closeList;
+    
     
     public InformedSearch(Graph graph, int start, int goal) {
         this.start = start;
@@ -39,33 +43,44 @@ public class InformedSearch {
             parent [i] = -1;
             mark [i] = false;
         }
-        Q = new Queue();
-        
+         openList = new ArrayList<>();
+         openListWeight = new ArrayList<>();
+         closeList = new ArrayList<>();
     }
     
     
-    public void RUN_BFS() throws InterruptedException {
+    public void RUN_UCS() throws InterruptedException {
     
-        Q.enqueue(start);
-    
-        int current;
+        openList.add(start);
+        openListWeight.add(0);
+        
+        int current_index, current, weight, current_weight;
         
 
-        while( !Q.isEmpty() && !isFind) {
-            current = (int) Q.dequeue();
+        while( !openList.isEmpty()) {
+           
+            current_index = this.getBest();
+            
+            weight = openListWeight.get(current_index);
+            current = openList.get(current_index);
+            
+            openList.remove(current_index);
+            openListWeight.remove(current_index);
+       
+            mark[current] = true;
+            if(isGoal(current)) {
+                isFind = true;
+                break;
+            }
+            closeList.add(current);
             
             for(int i = 0; i < nodeNumbers; i++) {
-                if(isFind)
-                    break;
-                if(graph.getGraph(current, i) > 0 && !mark[i]) {
+                current_weight = graph.getGraph(current, i);
+                if(current_weight > 0 && !inCloseList(i)) {
+                    openList.add(i);
+                    openListWeight.add(current_weight + weight);                        
                     parent[i] = current;
-                    mark[i] = true;
-                    if(isGoal(i)) {
-                       isFind = true;
-                       break;
-                    }
-                    Q.enqueue(i);
-                } 
+                }
             }
         }
         printPath();
@@ -93,5 +108,29 @@ public class InformedSearch {
             for(int i = path.size() - 1; i >= 0; i--) 
                 System.out.println(path.get(i));
         }
-    }    
+    }   
+    
+    private int getBest() {
+        
+        int i, j;
+        int min = openListWeight.get(0);
+        j = 0;
+        for(i = 1; i < openList.size(); i++) {
+            if(openListWeight.get(i) < min) {
+                j = i;
+                min = openListWeight.get(i); 
+            }
+        }
+        return j;
+    }
+    
+    private boolean inCloseList(int index) {
+        
+        for (Integer closeList1 : closeList) {
+            if (closeList1 == index) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

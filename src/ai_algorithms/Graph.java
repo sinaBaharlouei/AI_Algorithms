@@ -21,7 +21,7 @@ public class Graph {
     private final boolean isDirected;
     
     public Graph(String fileName, boolean isDirected) throws FileNotFoundException {
-        Scanner infile = new Scanner(new File("graph1.txt"));
+        Scanner infile = new Scanner(new File(fileName));
         
         this.isDirected = isDirected;
         nodeNumber = infile.nextInt();

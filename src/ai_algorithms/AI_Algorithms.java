@@ -21,7 +21,7 @@ public class AI_Algorithms {
         
         // Genetic Part
         //Genetic genetic = new Genetic(10, 5, -86, 120, 20, 0.2); // (Population Number, Child number, Min, Max, Iteration times, noise)
-        
+       /* 
         Graph graph = new Graph("graph1.txt", true);
        
         // DFS
@@ -33,6 +33,12 @@ public class AI_Algorithms {
         // BFS
         BFS bfs = new BFS(graph, 0, 3);
         bfs.RUN_BFS();
+        */
+        // Best first search
+        Graph graph2 = new Graph("graph2.txt", true);
+        System.out.println("-------------------------\nBest First Saerch");
+        InformedSearch informedSearch = new InformedSearch(graph2, 0, 4);
+        informedSearch.RUN_UCS();
         
     }
     
