@@ -7,12 +7,13 @@ package ai_algorithms;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import sun.misc.Queue;
 
 /**
  *
  * @author Sina
  */
-public class DFS {
+public class BFS {
  
     private final int start;
     private final int goal;
@@ -24,7 +25,9 @@ public class DFS {
     private ArrayList<Integer> path;
     boolean isFind = false;
     
-    public DFS(Graph graph, int start, int goal) {
+    private Queue Q;
+    
+    public BFS(Graph graph, int start, int goal) {
         this.start = start;
         this.goal = goal;
         this.graph = graph;
@@ -37,33 +40,37 @@ public class DFS {
             parent [i] = -1;
             mark [i] = false;
         }
-    }
-    
-    
-    public void RUN_DFS() {
-        _RUN_DFS(start);
-    }
-    
-    private void _RUN_DFS(int a) {
- 
-        if(isFind)
-            return;
+        Q = new Queue();
         
-        if(this.isGoal(a)) {
-            isFind = true;  
-            path = new ArrayList<>();
-            return;
-        }
+    }
+    
+    
+    public void RUN_BFS() throws InterruptedException {
+    
+        Q.enqueue(start);
+    
+        int current;
+        
+
+        while( !Q.isEmpty() && !isFind) {
+            current = (int) Q.dequeue();
             
-        int i;
-        for(i = 0; i < nodeNumbers; i++) {
-            if (graph.getGraph(a, i) > 0 && mark[i] == false) {
-                parent [i] = a;
-                mark [i] = true;
-                _RUN_DFS(i);
+            for(int i = 0; i < nodeNumbers; i++) {
+                if(isFind)
+                    break;
+                if(graph.getGraph(current, i) > 0 && !mark[i]) {
+                    parent[i] = current;
+                    mark[i] = true;
+                    if(isGoal(i)) {
+                       isFind = true;
+                       break;
+                    }
+                    Q.enqueue(i);
+                } 
             }
         }
-            
+        printPath();
+
     }
     
     private boolean isGoal(int a) {
@@ -75,6 +82,7 @@ public class DFS {
         if (!isFind) {
             System.out.println("There is no path to goal.");
         } else {
+            path = new ArrayList<>();
             int current = goal;
             while( current != start) {
                 path.add(current);
@@ -86,5 +94,5 @@ public class DFS {
             for(int i = path.size() - 1; i >= 0; i--) 
                 System.out.println(path.get(i));
         }
-    }
+    }   
 }

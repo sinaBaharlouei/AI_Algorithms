@@ -16,14 +16,24 @@ public class AI_Algorithms {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         // TODO code application logic here
         
         // Genetic Part
         //Genetic genetic = new Genetic(10, 5, -86, 120, 20, 0.2); // (Population Number, Child number, Min, Max, Iteration times, noise)
         
+        Graph graph = new Graph("graph1.txt", true);
+       
         // DFS
-        Graph graph = new Graph("graph1.txt");
+        DFS dfs = new DFS(graph, 0, 3);
+        dfs.RUN_DFS();
+        dfs.printPath();
+        
+        System.out.println("----------------------------");
+        // BFS
+        BFS bfs = new BFS(graph, 0, 3);
+        bfs.RUN_BFS();
+        
     }
     
 }

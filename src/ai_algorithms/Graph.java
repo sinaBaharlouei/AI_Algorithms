@@ -15,13 +15,15 @@ import java.util.Scanner;
  */
 public class Graph {
     
-    private int nodeNumber;
-    private int edgeNumber;
-    private int [][]graph;
-
-    public Graph(String fileName) throws FileNotFoundException {
+    private final int nodeNumber;
+    private final int edgeNumber;
+    private final int [][]graph;
+    private final boolean isDirected;
+    
+    public Graph(String fileName, boolean isDirected) throws FileNotFoundException {
         Scanner infile = new Scanner(new File("graph1.txt"));
         
+        this.isDirected = isDirected;
         nodeNumber = infile.nextInt();
         graph = new int [nodeNumber][nodeNumber];
         edgeNumber = infile.nextInt();
@@ -37,31 +39,32 @@ public class Graph {
             tail = infile.nextInt();
             weight = infile.nextInt();
             graph[head][tail] = weight;
+            if(!isDirected)
+                graph[tail][head] = weight;
         }
         
-        
+        for(i = 0; i < nodeNumber; i++) {
+            for(j = 0; j < nodeNumber; j++)
+                System.out.print(graph[i][j] + " ");
+            System.out.println("");
+        }
+            
     }
 
     public int getNodeNumber() {
         return nodeNumber;
     }
 
-    public void setNodeNumber(int nodeNumber) {
-        this.nodeNumber = nodeNumber;
-    }
-
     public int getEdgeNumber() {
         return edgeNumber;
-    }
-
-    public void setEdgeNumber(int edgeNumber) {
-        this.edgeNumber = edgeNumber;
     }
 
     public int getGraph(int i, int j) {
         return graph[i][j];
     }
-    
-        
-    
+
+    public boolean isDirected() {
+        return isDirected;
+    }  
+            
 }
