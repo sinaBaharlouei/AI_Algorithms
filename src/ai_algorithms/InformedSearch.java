@@ -5,8 +5,11 @@
  */
 package ai_algorithms;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 import sun.misc.Queue;
 
 /**
@@ -22,6 +25,8 @@ public class InformedSearch {
     
     private boolean [] mark;
     private int [] parent;
+    private int [] heuristic;
+    
     private ArrayList<Integer> path;
     boolean isFind = false;
     
@@ -48,8 +53,25 @@ public class InformedSearch {
          closeList = new ArrayList<>();
     }
     
+    public void readHeuristics(String fileName) throws FileNotFoundException, Exception {
     
-    public void RUN_UCS() throws InterruptedException {
+        heuristic = new int[nodeNumbers];
+        Scanner infile = new Scanner(new File(fileName));
+        
+        int nodeNumber = infile.nextInt();
+        if( nodeNumber != nodeNumbers)
+            throw  new Exception("Unmatched node numbers.");
+        
+        int i,value;
+        for(i = 0; i < nodeNumber; i++) {
+            value = infile.nextInt();
+            heuristic[i] = value;
+            //System.out.println(heuristic[i]);
+        }        
+    }
+    
+    
+    public void RUN_UCS() {
     
         openList.add(start);
         openListWeight.add(0);
@@ -86,7 +108,44 @@ public class InformedSearch {
         printPath();
 
     }
-    
+
+    public void RUN_ASTAR() {
+        
+        openList.add(start);
+        openListWeight.add(0 + heuristic[0]);
+        
+        int current_index, current, weight, current_weight;
+        
+
+        while( !openList.isEmpty()) {
+           
+            current_index = this.getBest();
+            
+            weight = openListWeight.get(current_index);
+            current = openList.get(current_index);
+            
+            openList.remove(current_index);
+            openListWeight.remove(current_index);
+       
+            mark[current] = true;
+            if(isGoal(current)) {
+                isFind = true;
+                break;
+            }
+            closeList.add(current);
+            
+            for(int i = 0; i < nodeNumbers; i++) {
+                current_weight = graph.getGraph(current, i);
+                if(current_weight > 0 && !inCloseList(i)) {
+                    openList.add(i);
+                    openListWeight.add(current_weight + heuristic[i]);                        
+                    parent[i] = current;
+                }
+            }
+        }
+        printPath();
+
+    }
     private boolean isGoal(int a) {
         return a == goal;
     }
@@ -123,6 +182,7 @@ public class InformedSearch {
         }
         return j;
     }
+    
     
     private boolean inCloseList(int index) {
         

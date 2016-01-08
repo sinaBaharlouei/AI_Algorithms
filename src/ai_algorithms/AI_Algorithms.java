@@ -16,7 +16,7 @@ public class AI_Algorithms {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException, Exception {
         // TODO code application logic here
         
         // Genetic Part
@@ -35,11 +35,19 @@ public class AI_Algorithms {
         bfs.RUN_BFS();
         */
         // Best first search
+        /*
         Graph graph2 = new Graph("graph2.txt", true);
         System.out.println("-------------------------\nBest First Saerch");
         InformedSearch informedSearch = new InformedSearch(graph2, 0, 4);
-        informedSearch.RUN_UCS();
-        
+        informedSearch.readHeuristics("heuristic2.txt");
+        informedSearch.RUN_ASTAR();
+        */
+        // A*
+        Graph graph3 = new Graph("graph3.txt", true);
+        System.out.println("\nA*");
+        InformedSearch A_STAR = new InformedSearch(graph3, 0, 6);
+        A_STAR.readHeuristics("heuristic3.txt");
+        A_STAR.RUN_ASTAR();
     }
     
 }
