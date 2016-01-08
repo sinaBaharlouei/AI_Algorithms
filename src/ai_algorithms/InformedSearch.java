@@ -109,7 +109,44 @@ public class InformedSearch {
 
     }
 
-    public void RUN_ASTAR() {
+    public void RUN_GREEDY() {
+        
+        openList.add(start);
+        openListWeight.add(heuristic[0]);
+        
+        int current_index, current, weight, current_weight;
+        
+
+        while( !openList.isEmpty()) {
+           
+            current_index = this.getBest();
+            
+            weight = openListWeight.get(current_index);
+            current = openList.get(current_index);
+            
+            openList.remove(current_index);
+            openListWeight.remove(current_index);
+       
+            mark[current] = true;
+            if(isGoal(current)) {
+                isFind = true;
+                break;
+            }
+            closeList.add(current);
+            
+            for(int i = 0; i < nodeNumbers; i++) {
+                current_weight = graph.getGraph(current, i);
+                if(current_weight > 0 && !inCloseList(i)) {
+                    openList.add(i);
+                    openListWeight.add(heuristic[i]);                        
+                    parent[i] = current;
+                }
+            }
+        }
+        printPath();
+    }
+
+    public void RUN_ASTAR(boolean is_greedy) {
         
         openList.add(start);
         openListWeight.add(0 + heuristic[0]);
@@ -138,14 +175,17 @@ public class InformedSearch {
                 current_weight = graph.getGraph(current, i);
                 if(current_weight > 0 && !inCloseList(i)) {
                     openList.add(i);
-                    openListWeight.add(current_weight + heuristic[i]);                        
+                    if(!is_greedy)
+                        openListWeight.add(current_weight + heuristic[i]);
+                    else 
+                        openListWeight.add(heuristic[i]);
                     parent[i] = current;
                 }
             }
         }
         printPath();
-
     }
+    
     private boolean isGoal(int a) {
         return a == goal;
     }

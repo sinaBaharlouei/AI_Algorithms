@@ -47,7 +47,14 @@ public class AI_Algorithms {
         System.out.println("\nA*");
         InformedSearch A_STAR = new InformedSearch(graph3, 0, 6);
         A_STAR.readHeuristics("heuristic3.txt");
-        A_STAR.RUN_ASTAR();
+        A_STAR.RUN_ASTAR(false); // A_STAR
+        
+        // Greedy
+        System.out.println("\nGreedy:");
+        InformedSearch greedy = new InformedSearch(graph3, 0, 6);
+        greedy.readHeuristics("heuristic3.txt");
+        greedy.RUN_ASTAR(true); // greedy
+        
+        
     }
-    
 }
