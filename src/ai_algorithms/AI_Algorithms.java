@@ -54,7 +54,11 @@ public class AI_Algorithms {
         InformedSearch greedy = new InformedSearch(graph3, 0, 6);
         greedy.readHeuristics("heuristic3.txt");
         greedy.RUN_ASTAR(true); // greedy
-        
-        
+
+        // Hill climbing
+        LocalSearch localSearch = new LocalSearch(graph3, 0);
+        localSearch.readValues("values3.txt");
+        int best = localSearch.hillClimbing(7);
+        System.out.println("\nHill climbing: " + best);        
     }
 }
