@@ -5,7 +5,6 @@
  */
 package ai_algorithms;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -13,26 +12,27 @@ import java.util.Random;
  *
  * @author Sina
  */
-public class Genetic {
+public final class Genetic {
     
     private final int populationNumber;
     private final int childNumber;
     private final double min;
     private final double max;
     private final int iterationNumber;
-    private final double normalNoise;
+    
+    private final double deviate;
     
     private KeyValue firstPopulation[];
     private KeyValue selectedNumbers[];
     private KeyValue children[];
     
-    public Genetic(int populationNumber, int childNumber, double min, double max, int iterationNumber, double normalNoise) {
+    public Genetic(int populationNumber, int childNumber, double min, double max, int iterationNumber, double deviate) {
         this.populationNumber = populationNumber;
         this.childNumber = childNumber;
         this.min = min;
         this.max = max;
         this.iterationNumber = iterationNumber;
-        this.normalNoise = normalNoise;
+        this.deviate = deviate;
         
         firstPopulation = new KeyValue[populationNumber];
         selectedNumbers = new KeyValue[childNumber];
@@ -59,7 +59,7 @@ public class Genetic {
         }
         
         for(i = 0; i < childNumber; i++)
-            System.out.println(selectedNumbers[i].key + ":" + selectedNumbers[i].value);
+            System.out.println(selectedNumbers[i].key + " : " + selectedNumbers[i].value);
     }
     
     
@@ -71,15 +71,26 @@ public class Genetic {
         
         int i;
         double newKey, newValue;
-        for( i = 0; i < childNumber - 1; i ++) {
-            newKey = (selectedNumbers[i].key + selectedNumbers[i+1].key) / 2;
+        Random rand = new Random();
+        double normalNoise;
+        for( i = 0; i < childNumber; i++) {
+            if(i != childNumber - 1) {
+                newKey = (selectedNumbers[i].key + selectedNumbers[i+1].key) / 2;            
+            } else {
+                newKey = (selectedNumbers[i].key + selectedNumbers[0].key) / 2;
+            }
+                       
+            // Mutation
+            normalNoise = rand.nextGaussian() * deviate;
+            newKey += normalNoise;
+            
             newValue = GoalFunc(newKey);
             children[i] = new KeyValue(newKey, newValue);
         }
-        Random rand = new Random();
-        int mutationElement = rand.nextInt(childNumber);
-        double mutatedKey = selectedNumbers[mutationElement].key + normalNoise;
-        children[childNumber-1] = new KeyValue(mutatedKey, GoalFunc(mutatedKey));
+
+        //int mutationElement = rand.nextInt(childNumber);
+        //double mutatedKey = selectedNumbers[mutationElement].key + normalNoise;
+        //children[childNumber-1] = new KeyValue(mutatedKey, GoalFunc(mutatedKey));
 
         Arrays.sort(children);
         merge();
