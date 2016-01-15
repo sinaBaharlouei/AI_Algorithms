@@ -15,6 +15,8 @@ public class AI_Algorithms {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
+     * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws FileNotFoundException, InterruptedException, Exception {
         // TODO code application logic here
@@ -25,17 +27,18 @@ public class AI_Algorithms {
         Graph graph = new Graph("graph1.txt", true);
        
         // DFS
-        DFS dfs = new DFS(graph, 0, 3);
+        //DFS dfs = new DFS(graph, 0, 3);
         //dfs.RUN_DFS(); // Normal DFS
-        dfs.RUN_DFS_WITH_MAX_DEPTH(3); // Max depth limited dfs
+        //dfs.RUN_DFS_WITH_MAX_DEPTH(3); // Max depth limited dfs
         //dfs.RUN_ITERATIVE_DFS(3);// Iterative DFS
-        dfs.printPath(); 
-        /* 
+        //dfs.printPath(); 
+        
+        ///* 
         System.out.println("----------------------------");
         // BFS
         BFS bfs = new BFS(graph, 0, 3);
         bfs.RUN_BFS();
-        */
+        //*/
         // Best first search
         /*
         Graph graph2 = new Graph("graph2.txt", true);
@@ -67,15 +70,18 @@ public class AI_Algorithms {
         System.out.println("\nHill climbing: " + best);        
         */
         // Simulated annealing
-        Graph graph3 = new Graph("graph3.txt", false);
-        LocalSearch simulatedAnnealing = new LocalSearch(graph3, 0);
-        simulatedAnnealing.readValues("values3.txt");
-        simulatedAnnealing.simulatedAnnealing(100);
+//        Graph graph3 = new Graph("graph3.txt", false);
+//        LocalSearch simulatedAnnealing = new LocalSearch(graph3, 0);
+//        simulatedAnnealing.readValues("values3.txt");
+//        simulatedAnnealing.simulatedAnnealing(100);
          
         
         // Game
         State start = new State("000000000", 0, null);
         Game game = new Game(start);
-        start.getChild(2).getChild(2).printChildren();
+        //Graph graph5 = new Graph(game, true);
+        System.out.println(start.getValue());
+        start.getChild(2).getChild(2).getChild(2).getChild(2).print();
+        System.out.println(start.getChild(2).getChild(2).getChild(2).getChild(2).getTurn());
     }
 }

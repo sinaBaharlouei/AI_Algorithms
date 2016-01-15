@@ -5,6 +5,11 @@
  */
 package ai_algorithms;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 /**
@@ -70,47 +75,44 @@ public class State {
     
     private int utility() {
 
-        char turn_symbol = (char) (turn + 48);
-        char oponent_symbol = (char) (3 - turn + 48);
-       
-        if(label.charAt(0) == label.charAt(1) && label.charAt(1) == label.charAt(2) && label.charAt(2) == turn_symbol) 
+        if(label.charAt(0) == label.charAt(1) && label.charAt(1) == label.charAt(2) && label.charAt(2) == '1') 
            return 1;     
-        if(label.charAt(0) == label.charAt(1) && label.charAt(1) == label.charAt(2) && label.charAt(2) == oponent_symbol) 
+        if(label.charAt(0) == label.charAt(1) && label.charAt(1) == label.charAt(2) && label.charAt(2) == '2') 
            return -1;
         
-        if(label.charAt(3) == label.charAt(4) && label.charAt(4) == label.charAt(5) && label.charAt(3) == turn_symbol) 
+        if(label.charAt(3) == label.charAt(4) && label.charAt(4) == label.charAt(5) && label.charAt(3) == '1') 
            return 1;     
-        if(label.charAt(3) == label.charAt(4) && label.charAt(4) == label.charAt(5) && label.charAt(3) == oponent_symbol) 
+        if(label.charAt(3) == label.charAt(4) && label.charAt(4) == label.charAt(5) && label.charAt(3) == '2') 
            return -1;
         
-        if(label.charAt(6) == label.charAt(7) && label.charAt(7) == label.charAt(8) && label.charAt(6) == turn_symbol) 
+        if(label.charAt(6) == label.charAt(7) && label.charAt(7) == label.charAt(8) && label.charAt(6) == '1') 
            return 1;     
-        if(label.charAt(6) == label.charAt(7) && label.charAt(7) == label.charAt(8) && label.charAt(6) == oponent_symbol) 
+        if(label.charAt(6) == label.charAt(7) && label.charAt(7) == label.charAt(8) && label.charAt(6) == '2') 
            return -1;
         
-        if(label.charAt(0) == label.charAt(3) && label.charAt(3) == label.charAt(6) && label.charAt(6) == turn_symbol) 
+        if(label.charAt(0) == label.charAt(3) && label.charAt(3) == label.charAt(6) && label.charAt(6) == '1') 
            return 1;     
-        if(label.charAt(0) == label.charAt(3) && label.charAt(3) == label.charAt(6) && label.charAt(6) == oponent_symbol) 
+        if(label.charAt(0) == label.charAt(3) && label.charAt(3) == label.charAt(6) && label.charAt(6) == '2') 
            return -1;
         
-        if(label.charAt(1) == label.charAt(4) && label.charAt(4) == label.charAt(7) && label.charAt(7) == turn_symbol) 
+        if(label.charAt(1) == label.charAt(4) && label.charAt(4) == label.charAt(7) && label.charAt(7) == '1') 
            return 1;     
-        if(label.charAt(1) == label.charAt(4) && label.charAt(4) == label.charAt(7) && label.charAt(7) == oponent_symbol) 
+        if(label.charAt(1) == label.charAt(4) && label.charAt(4) == label.charAt(7) && label.charAt(7) == '2') 
            return -1;
         
-        if(label.charAt(2) == label.charAt(5) && label.charAt(5) == label.charAt(8) && label.charAt(8) == turn_symbol) 
+        if(label.charAt(2) == label.charAt(5) && label.charAt(5) == label.charAt(8) && label.charAt(8) == '1') 
            return 1;     
-        if(label.charAt(2) == label.charAt(5) && label.charAt(5) == label.charAt(8) && label.charAt(8) == oponent_symbol) 
+        if(label.charAt(2) == label.charAt(5) && label.charAt(5) == label.charAt(8) && label.charAt(8) == '2') 
            return -1;
         
-        if(label.charAt(0) == label.charAt(4) && label.charAt(4) == label.charAt(8) && label.charAt(8) == turn_symbol) 
+        if(label.charAt(0) == label.charAt(4) && label.charAt(4) == label.charAt(8) && label.charAt(8) == '1') 
            return 1;     
-        if(label.charAt(0) == label.charAt(4) && label.charAt(4) == label.charAt(8) && label.charAt(8) == oponent_symbol) 
+        if(label.charAt(0) == label.charAt(4) && label.charAt(4) == label.charAt(8) && label.charAt(8) == '2') 
            return -1;
         
-        if(label.charAt(2) == label.charAt(4) && label.charAt(4) == label.charAt(6) && label.charAt(6) == turn_symbol) 
+        if(label.charAt(2) == label.charAt(4) && label.charAt(4) == label.charAt(6) && label.charAt(6) == '1') 
            return 1;     
-        if(label.charAt(2) == label.charAt(4) && label.charAt(4) == label.charAt(6) && label.charAt(6) == oponent_symbol) 
+        if(label.charAt(2) == label.charAt(4) && label.charAt(4) == label.charAt(6) && label.charAt(6) == '2') 
            return -1;
         
         if(!label.contains("0"))
@@ -118,11 +120,7 @@ public class State {
         
         return -111;       
     }
-    
-    public State getChildren(int i) {
-        return children.get(i);
-    }
-    
+       
     public void findMax() {
         int val;
         int max = children.get(0).getValue();
@@ -156,7 +154,18 @@ public class State {
         for(i = 0; i < children.size(); i++)
             System.out.println("Child[" + (i + 1) + "]: " + children.get(i).getLabel());
     }
-        
+    
+    public void print() {
+        int i;
+        for(i = 0; i < 9; i++) {
+            if(i%3 == 0)
+                System.out.println("");
+            if(label.charAt(i) == '1')
+                System.out.print("X ");
+            else if(label.charAt(i) == '2')
+                System.out.print("O ");
+            else
+                System.out.print("- ");
+        }
+    }
 }
-
-

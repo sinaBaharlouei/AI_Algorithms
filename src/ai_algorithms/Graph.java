@@ -19,6 +19,17 @@ public class Graph {
     private final int edgeNumber;
     private final int [][]graph;
     private final boolean isDirected;
+
+    private final String []labels;
+    
+    public Graph(Game game, boolean isDirected) {
+        this.nodeNumber = game.getNumber();
+        this.edgeNumber = this.nodeNumber;
+        graph = new int[nodeNumber][nodeNumber];
+        this.isDirected = isDirected;
+        this.convertToGraph(game.getStart());
+        labels = new String[nodeNumber];
+    }
     
     public Graph(String fileName, boolean isDirected) throws FileNotFoundException {
         Scanner infile = new Scanner(new File(fileName));
@@ -48,7 +59,7 @@ public class Graph {
                 System.out.print(graph[i][j] + " ");
             System.out.println("");
         }
-            
+        labels = new String[nodeNumber];    
     }
 
     public int getNodeNumber() {
@@ -66,5 +77,14 @@ public class Graph {
     public boolean isDirected() {
         return isDirected;
     }  
-            
+        
+                 
+    private void convertToGraph(State current) {
+
+        int i;
+        for(i = 0; i < current.getChildrenSize(); i++) {
+            graph[current.getNumber()][current.getChild(i).getNumber()] = 1;
+            convertToGraph(current.getChild(i));
+        }
+    }
 }

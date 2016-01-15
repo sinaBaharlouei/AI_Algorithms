@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package ai_algorithms;
-
 import java.util.ArrayList;
 
 /**
@@ -14,6 +13,14 @@ import java.util.ArrayList;
 public final class Game {
     
     private final State start;
+
+    public State getStart() {
+        return start;
+    }
+
+    public int getNumber() {
+        return number;
+    }
     private int number;
     private ArrayList<String> operator;
     
