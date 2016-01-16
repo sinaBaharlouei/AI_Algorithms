@@ -22,7 +22,7 @@ public class AI_Algorithms {
         // TODO code application logic here
         
         // Genetic Part
-        Genetic genetic = new Genetic(10, 5, -86, 120, 100, 0.2); // (Population Number, Child number, Min, Max, Iteration times, noise)
+        Genetic genetic = new Genetic(10, 5, -86, 120, 100, 0.2); // (Population Number, Child number, Min, Max, Iteration times, sigma)
        
         Graph graph = new Graph("graph1.txt", true);
        
@@ -77,11 +77,12 @@ public class AI_Algorithms {
          
         
         // Game
-        //State start = new State("000000000", 0, null);
-        //Game game = new Game(start);
+        State start = new State("000000000", 0, null);
+        Game game = new Game(start);
         //Graph graph5 = new Graph(game, true);
         //System.out.println(start.getValue());
         
+        game.rationalGame(start);
         //start.getChild(2).getChild(2).getChild(2).getChild(2).print();
         //System.out.println(start.getChild(2).getChild(2).getChild(2).getChild(2).getValue());
     }

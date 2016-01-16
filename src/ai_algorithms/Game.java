@@ -71,4 +71,35 @@ public final class Game {
         }
         
     }
+    
+    public void rationalGame(State state) {
+        
+        state.print();
+        System.out.println("\n\n");
+        
+        if(state.getChildrenSize() == 0)
+            return;
+        int index = 0, optimum, i;
+        if(state.getTurn() == 1) {
+            optimum = -2;
+            for(i = 0; i < state.getChildrenSize(); i++) {
+                if(state.getChild(i).getValue() > optimum) {
+                    optimum = state.getChild(i).getValue();
+                    index = i;
+                }
+            }
+            rationalGame(state.getChild(index));
+        } else {
+            optimum = 2;
+            for(i = 0; i < state.getChildrenSize(); i++) {
+                if(state.getChild(i).getValue() < optimum) {
+                    optimum = state.getChild(i).getValue();
+                    index = i;
+                }
+            }
+            rationalGame(state.getChild(index));
+        }
+        
+    }
+    
 }
